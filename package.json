@@ -1,21 +1,29 @@
 {
-  "name": "finratios-app",
+  "name": "valuation-app",
   "version": "1.0.0",
-  "description": "FinRatios Application - Node/Express + EJS starter (MySQL)",
-  "main": "backend/server.js",
+  "description": "Valuation App - DCF, Dividend Discount, P/E",
+  "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "ejs": "^3.1.9",
-    "mysql2": "^3.3.1",
-    "dotenv": "^16.0.3",
     "body-parser": "^1.20.2",
-    "cors": "^2.8.5"
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
-  }
+    "nodemon": "^3.1.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ahsan6765/FinRatioApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ahsan6765/FinRatioApp/issues"
+  },
+  "homepage": "https://github.com/Ahsan6765/FinRatioApp#readme"
 }
