@@ -1,0 +1,15 @@
+
+<%- include('../partials/header', { title: title }) %>
+<%- include('../partials/sidebar') %>
+<main class="main-content">
+  <div class="container">
+    <h1><%= title %></h1>
+    <div class="cards">
+      <div class="card">KSE-100 Index<br/><strong id="kse">--</strong></div>
+      <div class="card">Policy Rate<br/><strong id="policy">--</strong></div>
+      <div class="card">Inflation<br/><strong id="inflation">--</strong></div>
+      <div class="card">USD/PKR<br/><strong id="fx">--</strong></div>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

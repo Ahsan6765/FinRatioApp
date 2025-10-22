@@ -1,0 +1,18 @@
+
+:root{
+  --primary-blue: #0B1E40;
+  --accent-gold: #D4AF37;
+  --bg: #F5F6FA;
+  --text: #1E1E1E;
+  --card: #ffffff;
+}
+
+*{box-sizing:border-box}
+body{font-family: 'Poppins', sans-serif; background:var(--bg); margin:0; color:var(--text)}
+.topbar{height:64px; background:var(--card); display:flex; align-items:center; justify-content:space-between; padding:0 20px; box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.brand{font-weight:700; color:var(--primary-blue)}
+.sidebar{width:220px; background:var(--primary-blue); color:#fff; height:calc(100vh - 64px); position:fixed; top:64px; left:0; padding:20px}
+.main-content{margin-left:240px; padding:24px}
+.container{max-width:1200px; margin:0 auto}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px}
+.card{background:var(--card); padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(2,6,23,0.06)}
