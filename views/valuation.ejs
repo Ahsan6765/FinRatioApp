@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valuation (DCF & FCF) | Financial Ratio Analyzer</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script defer src="/js/valuation.js"></script>
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="brand">
+            <div class="logo">FR</div>
+            <div>
+                <h1>Financial Ratio Analyzer</h1>
+                <div class="sub">Valuation Models</div>
+            </div>
+        </div>
+        <nav class="top-nav">
+      <a href="/" class="active">Home</a>
+      <a href="/liquidity">Liquidity</a>
+      <a href="/profitability">Profitability</a>
+      <a href="/leverage">Leverage</a>
+      <a href="/efficiency">Efficiency</a>
+      <a href="/marketvalue">Market Value</a>
+      <a href="/valuation" class="active">valuation</a>
+      <a href="/dcf">DCF</a>
+      <a href="/fcf">FCF</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar">
+            <h2>Valuation Tools</h2>
+            <div class="menu">
+                <button class="active" id="btnDCF">DCF Model</button>
+                <button id="btnFCF">FCF Model</button>
+            </div>
+        </aside>
+
+        <section class="app-main">
+            <!-- DCF Section -->
+            <div class="page" id="dcfSection">
+                <div class="page-header">
+                    <h2>Discounted Cash Flow (DCF) Valuation</h2>
+                    <p class="muted">Estimate intrinsic value using growth projections and discount rates.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="ratio-card">
+                        <h3>DCF Inputs</h3>
+                        <div class="inputs">
+                            <input type="number" id="initialFCF" placeholder="Initial FCF (PKR million)" />
+                            <input type="number" id="growthRate" placeholder="Growth Rate (%)" />
+                            <input type="number" id="discountRate" placeholder="Discount Rate (%)" />
+                            <input type="number" id="terminalGrowth" placeholder="Terminal Growth Rate (%)" />
+                            <input type="number" id="projectionYears" placeholder="Projection Years" />
+                            <input type="number" id="sharesOutstanding" placeholder="Shares Outstanding (million)" />
+                            <input type="number" id="currentPrice" placeholder="Current Market Price (PKR)" />
+                        </div>
+                        <div class="controls">
+                            <button id="calculateDCF">Calculate</button>
+                        </div>
+                        <div class="output" id="dcfValue"></div>
+                        <div class="output" id="mosOutput"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FCF Section -->
+            <div class="page hidden" id="fcfSection">
+                <div class="page-header">
+                    <h2>Free Cash Flow (FCF) Valuation</h2>
+                    <p class="muted">Calculate fair value using FCF to firm approach.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="ratio-card">
+                        <h3>FCF Inputs</h3>
+                        <div class="inputs">
+                            <input type="number" id="fcf1" placeholder="FCF Year 1 (PKR million)" />
+                            <input type="number" id="fcf2" placeholder="FCF Year 2 (PKR million)" />
+                            <input type="number" id="fcf3" placeholder="FCF Year 3 (PKR million)" />
+                            <input type="number" id="fcf4" placeholder="FCF Year 4 (PKR million)" />
+                            <input type="number" id="fcf5" placeholder="FCF Year 5 (PKR million)" />
+                            <input type="number" id="discountRateFCF" placeholder="Discount Rate (%)" />
+                            <input type="number" id="terminalGrowthFCF" placeholder="Terminal Growth (%)" />
+                            <input type="number" id="sharesOutstandingFCF" placeholder="Shares Outstanding (million)" />
+                            <input type="number" id="currentPriceFCF" placeholder="Current Market Price (PKR)" />
+                        </div>
+                        <div class="controls">
+                            <button id="calculateFCF">Calculate</button>
+                        </div>
+                        <div class="output" id="fcfValue"></div>
+                        <div class="output" id="mosOutputFCF"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        © 2025 Financial Ratio Analyzer | Created by CFA Analyst
+    </footer>
+</body>
+
+</html>

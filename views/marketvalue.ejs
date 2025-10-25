@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,6 +9,7 @@
   <script src="/js/main.js" defer></script>
   <script src="/js/marketvalue.js" defer></script>
 </head>
+
 <body>
   <header class="app-header">
     <div class="brand">
@@ -18,12 +20,15 @@
       </div>
     </div>
     <nav class="top-nav">
-      <a href="/">Home</a>
+      <a href="/" class="active">Home</a>
       <a href="/liquidity">Liquidity</a>
       <a href="/profitability">Profitability</a>
       <a href="/leverage">Leverage</a>
       <a href="/efficiency">Efficiency</a>
       <a href="/marketvalue" class="active">Market Value</a>
+      <a href="/valuation">valuation</a>
+      <a href="/dcf">DCF</a>
+      <a href="/fcf">FCF</a>
     </nav>
   </header>
 
@@ -96,7 +101,8 @@
           <!-- Earnings Yield & MOS -->
           <div class="ratio-card">
             <h3>Earnings Yield & Margin of Safety</h3>
-            <div class="formula">Earnings Yield = EPS ÷ Market Price; Margin of Safety = (FairValue - Price)/FairValue × 100</div>
+            <div class="formula">Earnings Yield = EPS ÷ Market Price; Margin of Safety = (FairValue - Price)/FairValue ×
+              100</div>
             <div class="inputs">
               <input id="eps_ey" type="number" placeholder="EPS">
               <input id="price_ey" type="number" placeholder="Market Price per Share">
@@ -122,4 +128,5 @@
     <p>© 2025 Financial Ratio Analyzer — Market Module.</p>
   </footer>
 </body>
+
 </html>

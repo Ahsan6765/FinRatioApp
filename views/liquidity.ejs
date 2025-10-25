@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,6 +9,7 @@
   <script src="/js/main.js" defer></script>
   <script src="/js/liquidity.js" defer></script>
 </head>
+
 <body>
   <header class="app-header">
     <div class="brand">
@@ -18,12 +20,15 @@
       </div>
     </div>
     <nav class="top-nav">
-      <a href="/">Home</a>
+      <a href="/" class="active">Home</a>
       <a href="/liquidity" class="active">Liquidity</a>
       <a href="/profitability">Profitability</a>
       <a href="/leverage">Leverage</a>
       <a href="/efficiency">Efficiency</a>
       <a href="/marketvalue">Market Value</a>
+      <a href="/valuation">valuation</a>
+      <a href="/dcf">DCF</a>
+      <a href="/fcf">FCF</a>
     </nav>
   </header>
 
@@ -44,7 +49,8 @@
       <section class="page active">
         <div class="page-header">
           <h2>Liquidity Calculators</h2>
-          <small class="muted">Enter numbers (local currency) — the app calculates ratios and a short interpretation.</small>
+          <small class="muted">Enter numbers (local currency) — the app calculates ratios and a short
+            interpretation.</small>
         </div>
 
         <div class="grid">
@@ -114,7 +120,8 @@
 
         <section class="insight-section">
           <h3>Interpretation</h3>
-          <p id="liquidityInsight" class="muted">Calculated values appear above with a short CFA-style interpretation.</p>
+          <p id="liquidityInsight" class="muted">Calculated values appear above with a short CFA-style interpretation.
+          </p>
         </section>
       </section>
     </main>
@@ -124,4 +131,5 @@
     <p>© 2025 Financial Ratio Analyzer — Liquidity Module.</p>
   </footer>
 </body>
+
 </html>
