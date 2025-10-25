@@ -17,6 +17,16 @@ app.get("/profitability", (req, res) => res.render("profitability"));
 app.get("/leverage", (req, res) => res.render("leverage"));
 app.get("/efficiency", (req, res) => res.render("efficiency"));
 app.get("/marketvalue", (req, res) => res.render("marketvalue"));
+// server/server.js
+
+app.get("/dcf", (req, res) => {
+  res.render("dcf", { title: "Discounted Cash Flow (DCF) Valuation" });
+});
+
+app.get("/fcf", (req, res) => {
+  res.render("fcf", { title: "Free Cash Flow Valuation" });
+});
+
 
 // 404 fallback
 app.use((req, res) => {

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/fcf.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">FR</div>
+      <div>
+        <h1>Financial Ratio Analyzer</h1>
+        <div class="sub">CFA Professional Toolkit</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="/">Home</a>
+      <a href="/dcf">DCF</a>
+      <a href="/fcf" class="active">FCF</a>
+    </nav>
+    <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Valuation Modules</h2>
+      <div class="menu">
+        <button onclick="window.location.href='/dcf'">Discounted Cash Flow</button>
+        <button class="active">Free Cash Flow</button>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page active">
+        <div class="page-header">
+          <h2>Free Cash Flow (FCF) Calculator</h2>
+          <p class="muted">Calculate FCF from core financial data</p>
+        </div>
+
+        <div class="ratio-card">
+          <h3>Inputs</h3>
+          <div class="inputs">
+            <input type="number" id="netIncome" placeholder="Net Income" />
+            <input type="number" id="depreciation" placeholder="Depreciation & Amortization" />
+            <input type="number" id="capex" placeholder="Capital Expenditure (CapEx)" />
+            <input type="number" id="workingCapital" placeholder="Change in Working Capital" />
+          </div>
+
+          <div class="controls">
+            <button onclick="calculateFCF()">Calculate FCF</button>
+            <button onclick="resetFCF()">Reset</button>
+          </div>
+
+          <div class="output" id="fcfResult"></div>
+          <div class="insight-section" id="fcfInsight"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">© 2025 Financial Ratio Analyzer | CFA Professional Edition</footer>
+</body>
+</html>
