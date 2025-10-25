@@ -21,3 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // export fmt for other modules (works in browser global scope)
 window.fmt = fmt;
+
+// Theme toggle logic
+const themeToggle = document.getElementById("themeToggle");
+const currentTheme = localStorage.getItem("theme") || 
+  (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+document.documentElement.setAttribute("data-theme", currentTheme);
+if (themeToggle) themeToggle.textContent = currentTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+
+themeToggle?.addEventListener("click", () => {
+  const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+  themeToggle.textContent = theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+});
