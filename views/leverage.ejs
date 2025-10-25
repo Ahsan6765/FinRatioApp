@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Leverage Ratios — Financial Ratio Analyzer</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/main.js" defer></script>
+  <script src="/js/leverage.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">FR</div>
+      <div>
+        <h1>Leverage Ratios</h1>
+        <div class="sub">Debt & capital structure insights</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="/">Home</a>
+      <a href="/liquidity">Liquidity</a>
+      <a href="/profitability">Profitability</a>
+      <a href="/leverage" class="active">Leverage</a>
+      <a href="/efficiency">Efficiency</a>
+      <a href="/marketvalue">Market Value</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Leverage Tools</h2>
+      <div class="menu">
+        <button class="active">Debt-to-Equity</button>
+        <button>Interest Coverage</button>
+        <button>DSCR</button>
+        <button>Debt-to-Asset</button>
+        <button>Equity Ratio</button>
+      </div>
+      <hr />
+      <p class="muted">Use average balances where possible (e.g., average equity over the year).</p>
+    </aside>
+
+    <main class="app-main">
+      <section class="page active">
+        <div class="page-header">
+          <h2>Leverage Calculators</h2>
+          <small class="muted">Assess solvency and debt servicing capacity.</small>
+        </div>
+
+        <div class="grid">
+          <!-- Debt-to-Equity -->
+          <div class="ratio-card">
+            <h3>Debt-to-Equity Ratio</h3>
+            <div class="formula">Total Liabilities ÷ Shareholder's Equity</div>
+            <div class="inputs">
+              <input id="totalLiabilities" type="number" placeholder="Total Liabilities">
+              <input id="shareholdersEquity_leverage" type="number" placeholder="Shareholder's Equity">
+              <div class="controls">
+                <button onclick="calculateDebtToEquity()">Calculate</button>
+                <button onclick="clearDebtToEquity()">Clear</button>
+              </div>
+            </div>
+            <div id="dteResult" class="output"></div>
+          </div>
+
+          <!-- Interest Coverage -->
+          <div class="ratio-card">
+            <h3>Interest Coverage Ratio</h3>
+            <div class="formula">EBIT ÷ Interest Expense</div>
+            <div class="inputs">
+              <input id="ebit" type="number" placeholder="EBIT (Earnings Before Interest & Tax)">
+              <input id="interestExpense" type="number" placeholder="Interest Expense">
+              <div class="controls">
+                <button onclick="calculateInterestCoverage()">Calculate</button>
+                <button onclick="clearInterest()">Clear</button>
+              </div>
+            </div>
+            <div id="interestResult" class="output"></div>
+          </div>
+
+          <!-- DSCR -->
+          <div class="ratio-card">
+            <h3>Debt Service Coverage Ratio (DSCR)</h3>
+            <div class="formula">Net Operating Income ÷ Total Debt Service</div>
+            <div class="inputs">
+              <input id="netOperatingIncome" type="number" placeholder="Net Operating Income">
+              <input id="totalDebtService" type="number" placeholder="Total Debt Service (principal + interest)">
+              <div class="controls">
+                <button onclick="calculateDSCR()">Calculate</button>
+                <button onclick="clearDSCR()">Clear</button>
+              </div>
+            </div>
+            <div id="dscrResult" class="output"></div>
+          </div>
+
+          <!-- Debt-to-Asset -->
+          <div class="ratio-card">
+            <h3>Debt-to-Asset Ratio</h3>
+            <div class="formula">Total Liabilities ÷ Total Assets</div>
+            <div class="inputs">
+              <input id="totalLiabilities_da" type="number" placeholder="Total Liabilities">
+              <input id="totalAssets_da" type="number" placeholder="Total Assets">
+              <div class="controls">
+                <button onclick="calculateDebtToAsset()">Calculate</button>
+                <button onclick="clearDebtToAsset()">Clear</button>
+              </div>
+            </div>
+            <div id="dtaResult" class="output"></div>
+          </div>
+
+          <!-- Equity Ratio -->
+          <div class="ratio-card">
+            <h3>Equity Ratio</h3>
+            <div class="formula">Shareholder's Equity ÷ Total Liabilities</div>
+            <div class="inputs">
+              <input id="shareholdersEquity_eq" type="number" placeholder="Shareholder's Equity">
+              <input id="totalLiabilities_eq" type="number" placeholder="Total Liabilities">
+              <div class="controls">
+                <button onclick="calculateEquityRatio()">Calculate</button>
+                <button onclick="clearEquityRatio()">Clear</button>
+              </div>
+            </div>
+            <div id="eqResult" class="output"></div>
+          </div>
+        </div>
+
+        <section class="insight-section">
+          <h3>Interpretation</h3>
+          <p id="leverageInsight" class="muted">Results and risk commentary will appear here.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 Financial Ratio Analyzer — Leverage Module.</p>
+  </footer>
+</body>
+</html>

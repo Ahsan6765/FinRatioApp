@@ -1,0 +1,19 @@
+{
+  "name": "financial-ratio-analyzer",
+  "version": "1.0.0",
+  "description": "A professional CFA-grade financial ratio analysis application built with Node.js, Express, and EJS.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ejs": "^3.1.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "author": "CFA Financial Systems",
+  "license": "MIT"
+}

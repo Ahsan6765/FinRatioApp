@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profitability Ratios — Financial Ratio Analyzer</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/main.js" defer></script>
+  <script src="/js/profitability.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">FR</div>
+      <div>
+        <h1>Profitability Ratios</h1>
+        <div class="sub">Margins, ROA, ROE & Dividend Yield</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="/">Home</a>
+      <a href="/liquidity">Liquidity</a>
+      <a href="/profitability" class="active">Profitability</a>
+      <a href="/leverage">Leverage</a>
+      <a href="/efficiency">Efficiency</a>
+      <a href="/marketvalue">Market Value</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Profitability</h2>
+      <div class="menu">
+        <button class="active">Net Margin</button>
+        <button>Gross Margin</button>
+        <button>Operating Margin</button>
+        <button>ROA / ROE</button>
+        <button>Dividend Yield</button>
+      </div>
+      <hr />
+      <p class="muted">Enter revenue, costs and net income from the income statement.</p>
+    </aside>
+
+    <main class="app-main">
+      <section class="page active">
+        <div class="page-header">
+          <h2>Profitability Calculators</h2>
+          <small class="muted">Formulas and short interpretations are provided.</small>
+        </div>
+
+        <div class="grid">
+          <!-- Gross Margin -->
+          <div class="ratio-card">
+            <h3>Gross Profit Margin</h3>
+            <div class="formula">(Revenue − COGS) ÷ Revenue</div>
+            <div class="inputs">
+              <input id="revenue_gross" type="number" placeholder="Revenue">
+              <input id="cogs" type="number" placeholder="Cost of Goods Sold (COGS)">
+              <div class="controls">
+                <button onclick="calculateGrossMargin()">Calculate</button>
+                <button onclick="clearGross()">Clear</button>
+              </div>
+            </div>
+            <div id="grossResult" class="output"></div>
+          </div>
+
+          <!-- Net Margin -->
+          <div class="ratio-card">
+            <h3>Net Profit Margin</h3>
+            <div class="formula">Net Income ÷ Revenue</div>
+            <div class="inputs">
+              <input id="netIncome" type="number" placeholder="Net Income">
+              <input id="revenue_net" type="number" placeholder="Revenue">
+              <div class="controls">
+                <button onclick="calculateNetMargin()">Calculate</button>
+                <button onclick="clearNet()">Clear</button>
+              </div>
+            </div>
+            <div id="netResult" class="output"></div>
+          </div>
+
+          <!-- Operating Margin -->
+          <div class="ratio-card">
+            <h3>Operating Profit Margin</h3>
+            <div class="formula">Operating Income ÷ Revenue</div>
+            <div class="inputs">
+              <input id="operatingIncome" type="number" placeholder="Operating Income">
+              <input id="revenue_op" type="number" placeholder="Revenue">
+              <div class="controls">
+                <button onclick="calculateOperatingMargin()">Calculate</button>
+                <button onclick="clearOperating()">Clear</button>
+              </div>
+            </div>
+            <div id="operatingResult" class="output"></div>
+          </div>
+
+          <!-- ROA / ROE -->
+          <div class="ratio-card">
+            <h3>Return on Assets (ROA)</h3>
+            <div class="formula">Net Income ÷ Total Assets</div>
+            <div class="inputs">
+              <input id="netIncome_roa" type="number" placeholder="Net Income">
+              <input id="totalAssets" type="number" placeholder="Total Assets (average)">
+              <div class="controls">
+                <button onclick="calculateROA()">Calculate ROA</button>
+                <button onclick="clearROA()">Clear</button>
+              </div>
+            </div>
+            <div id="roaResult" class="output"></div>
+          </div>
+
+          <div class="ratio-card">
+            <h3>Return on Equity (ROE)</h3>
+            <div class="formula">Net Income ÷ Shareholder's Equity</div>
+            <div class="inputs">
+              <input id="netIncome_roe" type="number" placeholder="Net Income">
+              <input id="shareholdersEquity" type="number" placeholder="Shareholder's Equity (average)">
+              <div class="controls">
+                <button onclick="calculateROE()">Calculate ROE</button>
+                <button onclick="clearROE()">Clear</button>
+              </div>
+            </div>
+            <div id="roeResult" class="output"></div>
+          </div>
+
+          <!-- Dividend Yield -->
+          <div class="ratio-card">
+            <h3>Dividend Yield</h3>
+            <div class="formula">Annual Dividends per Share ÷ Price per Share</div>
+            <div class="inputs">
+              <input id="annualDividend" type="number" placeholder="Annual Dividend per Share">
+              <input id="pricePerShare" type="number" placeholder="Market Price per Share">
+              <div class="controls">
+                <button onclick="calculateDividendYield()">Calculate</button>
+                <button onclick="clearDividend()">Clear</button>
+              </div>
+            </div>
+            <div id="dividendResult" class="output"></div>
+          </div>
+        </div>
+
+        <section class="insight-section">
+          <h3>Interpretation</h3>
+          <p id="profitInsight" class="muted">Results and short CFA-style comments appear here.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 Financial Ratio Analyzer — Profitability Module.</p>
+  </footer>
+</body>
+</html>

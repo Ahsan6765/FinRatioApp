@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Liquidity Ratios — Financial Ratio Analyzer</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/main.js" defer></script>
+  <script src="/js/liquidity.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">FR</div>
+      <div>
+        <h1>Liquidity Ratios</h1>
+        <div class="sub">Short-term solvency & cash position</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="/">Home</a>
+      <a href="/liquidity" class="active">Liquidity</a>
+      <a href="/profitability">Profitability</a>
+      <a href="/leverage">Leverage</a>
+      <a href="/efficiency">Efficiency</a>
+      <a href="/marketvalue">Market Value</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Liquidity Tools</h2>
+      <div class="menu">
+        <button class="active">Current Ratio</button>
+        <button>Quick Ratio</button>
+        <button>Cash Ratio</button>
+        <button>Operating Cash Flow Ratio</button>
+      </div>
+      <hr />
+      <p class="muted">Tip: Use annualized operating cash flow for accurate OCF ratio.</p>
+    </aside>
+
+    <main class="app-main">
+      <section class="page active">
+        <div class="page-header">
+          <h2>Liquidity Calculators</h2>
+          <small class="muted">Enter numbers (local currency) — the app calculates ratios and a short interpretation.</small>
+        </div>
+
+        <div class="grid">
+
+          <!-- Current Ratio -->
+          <div class="ratio-card">
+            <h3>Current Ratio</h3>
+            <div class="formula">Current Assets ÷ Current Liabilities</div>
+            <div class="inputs">
+              <input id="currentAssets" type="number" placeholder="Current Assets">
+              <input id="currentLiabilities" type="number" placeholder="Current Liabilities">
+              <div class="controls">
+                <button onclick="calculateCurrentRatio()">Calculate</button>
+                <button onclick="clearCurrent()">Clear</button>
+              </div>
+            </div>
+            <div class="output" id="currentRatioResult"></div>
+          </div>
+
+          <!-- Quick Ratio -->
+          <div class="ratio-card">
+            <h3>Quick Ratio</h3>
+            <div class="formula">(Current Assets − Inventory) ÷ Current Liabilities</div>
+            <div class="inputs">
+              <input id="quickAssets" type="number" placeholder="Current Assets">
+              <input id="inventory" type="number" placeholder="Inventory">
+              <input id="quickLiabilities" type="number" placeholder="Current Liabilities">
+              <div class="controls">
+                <button onclick="calculateQuickRatio()">Calculate</button>
+                <button onclick="clearQuick()">Clear</button>
+              </div>
+            </div>
+            <div class="output" id="quickRatioResult"></div>
+          </div>
+
+          <!-- Cash Ratio -->
+          <div class="ratio-card">
+            <h3>Cash Ratio</h3>
+            <div class="formula">Cash & Cash Equivalents ÷ Current Liabilities</div>
+            <div class="inputs">
+              <input id="cashEquivalents" type="number" placeholder="Cash & Equivalents">
+              <input id="cashLiabilities" type="number" placeholder="Current Liabilities">
+              <div class="controls">
+                <button onclick="calculateCashRatio()">Calculate</button>
+                <button onclick="clearCash()">Clear</button>
+              </div>
+            </div>
+            <div class="output" id="cashRatioResult"></div>
+          </div>
+
+          <!-- Operating Cash Flow Ratio -->
+          <div class="ratio-card">
+            <h3>Operating Cash Flow Ratio</h3>
+            <div class="formula">Operating Cash Flow ÷ Current Liabilities</div>
+            <div class="inputs">
+              <input id="operatingCashFlow" type="number" placeholder="Operating Cash Flow (annual)">
+              <input id="ocfLiabilities" type="number" placeholder="Current Liabilities">
+              <div class="controls">
+                <button onclick="calculateOCFRatio()">Calculate</button>
+                <button onclick="clearOCF()">Clear</button>
+              </div>
+            </div>
+            <div class="output" id="ocfRatioResult"></div>
+          </div>
+
+        </div>
+
+        <section class="insight-section">
+          <h3>Interpretation</h3>
+          <p id="liquidityInsight" class="muted">Calculated values appear above with a short CFA-style interpretation.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 Financial Ratio Analyzer — Liquidity Module.</p>
+  </footer>
+</body>
+</html>

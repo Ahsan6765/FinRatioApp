@@ -1,0 +1,63 @@
+/* /public/css/style.css - Professional minimal styling */
+
+:root{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#0369a1;
+  --accent-2:#0ea5a4;
+  --text:#0f172a;
+  --glass: rgba(255,255,255,0.8);
+  --shadow: 0 6px 16px rgba(2,6,23,0.06);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,#ffffff 0%,#f4f7fb 100%);color:var(--text)}
+a{color:inherit}
+
+.app-header{
+  display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:var(--card);box-shadow:var(--shadow);position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(3,105,161,0.04)
+}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:grid;place-items:center;color:white;font-weight:700}
+.brand h1{margin:0;font-size:16px}
+.brand .sub{font-size:12px;color:var(--muted)}
+
+.top-nav a{margin-left:12px;text-decoration:none;color:var(--muted);padding:8px 10px;border-radius:6px}
+.top-nav a.active{background:rgba(3,105,161,0.06);color:var(--accent);font-weight:600}
+
+.container{display:grid;grid-template-columns:260px 1fr;gap:20px;padding:26px}
+.sidebar{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow);min-height:60vh}
+.sidebar h2{font-size:14px;margin:0 0 8px 0;color:var(--accent)}
+.menu{display:flex;flex-direction:column;gap:6px}
+.menu button{background:none;border:none;text-align:left;padding:10px;border-radius:8px;cursor:pointer;color:var(--text);font-size:14px}
+.menu button.active{background:linear-gradient(90deg, rgba(3,105,161,0.06), rgba(14,165,164,0.04));color:var(--accent);font-weight:600}
+
+.app-main{min-height:60vh}
+.page{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow)}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.page-header h2{margin:0}
+.muted{color:var(--muted);font-size:13px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:linear-gradient(180deg,var(--glass),#fff);border-radius:10px;padding:18px;box-shadow:0 6px 12px rgba(2,6,23,0.04);border:1px solid rgba(3,105,161,0.04);text-decoration:none;display:block}
+.card h3{margin:0 0 6px 0}
+.card p{margin:0;color:var(--muted)}
+
+.ratio-card{background:linear-gradient(180deg,var(--glass),#fff);padding:14px;border-radius:10px;border:1px solid rgba(3,105,161,0.04)}
+.ratio-card h3{margin:0 0 8px 0}
+.formula{font-size:13px;color:var(--muted);margin-bottom:10px}
+.inputs{display:flex;flex-direction:column;gap:8px}
+.inputs input{padding:10px;border-radius:8px;border:1px solid #e6eef6}
+.controls{display:flex;gap:8px;margin-top:8px}
+button{background:var(--accent);color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+button:hover{opacity:0.95}
+.output{margin-top:10px;font-weight:600;color:var(--accent-2)}
+.insight-section{margin-top:18px}
+
+.footer{padding:16px 26px;color:var(--muted);font-size:13px;text-align:center}
+@media (max-width:900px){
+  .container{grid-template-columns:1fr;padding:14px}
+  .sidebar{order:2}
+}

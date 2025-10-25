@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Market Value Ratios — Financial Ratio Analyzer</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/main.js" defer></script>
+  <script src="/js/marketvalue.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">FR</div>
+      <div>
+        <h1>Market Value Ratios</h1>
+        <div class="sub">Valuation metrics & margin of safety</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="/">Home</a>
+      <a href="/liquidity">Liquidity</a>
+      <a href="/profitability">Profitability</a>
+      <a href="/leverage">Leverage</a>
+      <a href="/efficiency">Efficiency</a>
+      <a href="/marketvalue" class="active">Market Value</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Market Tools</h2>
+      <div class="menu">
+        <button class="active">P/E</button>
+        <button>P/B</button>
+        <button>P/S</button>
+        <button>Earnings Yield & MOS</button>
+      </div>
+      <hr />
+      <p class="muted">If you plan to add PSX/market API later, this page is where to plug live quotes.</p>
+    </aside>
+
+    <main class="app-main">
+      <section class="page active">
+        <div class="page-header">
+          <h2>Market Value Calculators</h2>
+          <small class="muted">Enter market price + per-share metrics.</small>
+        </div>
+
+        <div class="grid">
+          <!-- P/E -->
+          <div class="ratio-card">
+            <h3>Price-to-Earnings (P/E)</h3>
+            <div class="formula">Market Price per Share ÷ EPS</div>
+            <div class="inputs">
+              <input id="price_pe" type="number" placeholder="Market Price per Share">
+              <input id="eps" type="number" placeholder="Earnings per Share (EPS)">
+              <div class="controls">
+                <button onclick="calculatePE()">Calculate</button>
+                <button onclick="clearPE()">Clear</button>
+              </div>
+            </div>
+            <div id="peResult" class="output"></div>
+          </div>
+
+          <!-- P/B -->
+          <div class="ratio-card">
+            <h3>Price-to-Book (P/B)</h3>
+            <div class="formula">Market Price per Share ÷ Book Value per Share</div>
+            <div class="inputs">
+              <input id="price_pb" type="number" placeholder="Market Price per Share">
+              <input id="bookValue" type="number" placeholder="Book Value per Share">
+              <div class="controls">
+                <button onclick="calculatePB()">Calculate</button>
+                <button onclick="clearPB()">Clear</button>
+              </div>
+            </div>
+            <div id="pbResult" class="output"></div>
+          </div>
+
+          <!-- P/S -->
+          <div class="ratio-card">
+            <h3>Price-to-Sales (P/S)</h3>
+            <div class="formula">Market Price per Share ÷ Revenue per Share</div>
+            <div class="inputs">
+              <input id="price_ps" type="number" placeholder="Market Price per Share">
+              <input id="revenuePerShare" type="number" placeholder="Revenue per Share">
+              <div class="controls">
+                <button onclick="calculatePS()">Calculate</button>
+                <button onclick="clearPS()">Clear</button>
+              </div>
+            </div>
+            <div id="psResult" class="output"></div>
+          </div>
+
+          <!-- Earnings Yield & MOS -->
+          <div class="ratio-card">
+            <h3>Earnings Yield & Margin of Safety</h3>
+            <div class="formula">Earnings Yield = EPS ÷ Market Price; Margin of Safety = (FairValue - Price)/FairValue × 100</div>
+            <div class="inputs">
+              <input id="eps_ey" type="number" placeholder="EPS">
+              <input id="price_ey" type="number" placeholder="Market Price per Share">
+              <input id="fairValue" type="number" placeholder="Your Calculated Fair Value (optional)">
+              <div class="controls">
+                <button onclick="calculateEarningsYield()">Calculate</button>
+                <button onclick="clearEY()">Clear</button>
+              </div>
+            </div>
+            <div id="eyResult" class="output"></div>
+          </div>
+        </div>
+
+        <section class="insight-section">
+          <h3>Interpretation</h3>
+          <p id="marketInsight" class="muted">Earnings yield and MOS help decide valuation attractiveness.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 Financial Ratio Analyzer — Market Module.</p>
+  </footer>
+</body>
+</html>

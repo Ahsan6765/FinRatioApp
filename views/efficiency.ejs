@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Efficiency Ratios — Financial Ratio Analyzer</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/main.js" defer></script>
+  <script src="/js/efficiency.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="logo">FR</div>
+      <div>
+        <h1>Efficiency Ratios</h1>
+        <div class="sub">Turnovers, DSO & DIO</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="/">Home</a>
+      <a href="/liquidity">Liquidity</a>
+      <a href="/profitability">Profitability</a>
+      <a href="/leverage">Leverage</a>
+      <a href="/efficiency" class="active">Efficiency</a>
+      <a href="/marketvalue">Market Value</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Efficiency Tools</h2>
+      <div class="menu">
+        <button class="active">Asset Turnover</button>
+        <button>Inventory Turnover</button>
+        <button>Days Inventory Outstanding</button>
+        <button>Days Sales Outstanding</button>
+      </div>
+      <hr />
+      <p class="muted">Use average inventory / average receivables if available.</p>
+    </aside>
+
+    <main class="app-main">
+      <section class="page active">
+        <div class="page-header">
+          <h2>Efficiency Calculators</h2>
+          <small class="muted">All days-based ratios use a 365-day base by default.</small>
+        </div>
+
+        <div class="grid">
+          <!-- Asset Turnover -->
+          <div class="ratio-card">
+            <h3>Asset Turnover Ratio</h3>
+            <div class="formula">Sales ÷ Total Assets</div>
+            <div class="inputs">
+              <input id="sales_at" type="number" placeholder="Sales / Revenue">
+              <input id="assets_at" type="number" placeholder="Total Assets (average)">
+              <div class="controls">
+                <button onclick="calculateAssetTurnover()">Calculate</button>
+                <button onclick="clearAssetTurnover()">Clear</button>
+              </div>
+            </div>
+            <div id="assetTurnoverResult" class="output"></div>
+          </div>
+
+          <!-- Inventory Turnover -->
+          <div class="ratio-card">
+            <h3>Inventory Turnover Ratio</h3>
+            <div class="formula">COGS ÷ Average Inventory</div>
+            <div class="inputs">
+              <input id="cogs_it" type="number" placeholder="COGS">
+              <input id="avgInventory" type="number" placeholder="Average Inventory">
+              <div class="controls">
+                <button onclick="calculateInventoryTurnover()">Calculate</button>
+                <button onclick="clearInventoryTurnover()">Clear</button>
+              </div>
+            </div>
+            <div id="inventoryTurnoverResult" class="output"></div>
+          </div>
+
+          <!-- DIO -->
+          <div class="ratio-card">
+            <h3>Days Inventory Outstanding (DIO)</h3>
+            <div class="formula">Average Inventory ÷ COGS × 365</div>
+            <div class="inputs">
+              <input id="avgInventory_dio" type="number" placeholder="Average Inventory">
+              <input id="cogs_dio" type="number" placeholder="COGS">
+              <div class="controls">
+                <button onclick="calculateDIO()">Calculate</button>
+                <button onclick="clearDIO()">Clear</button>
+              </div>
+            </div>
+            <div id="dioResult" class="output"></div>
+          </div>
+
+          <!-- DSO -->
+          <div class="ratio-car
