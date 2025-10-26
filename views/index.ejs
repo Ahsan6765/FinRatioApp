@@ -7,6 +7,7 @@
   <title>Financial Ratio Analyzer (2025) — CFA Edition</title>
   <link rel="stylesheet" href="/css/style.css" />
   <script src="/js/main.js" defer></script>
+  <script src="/js/kse-heatmap.js" defer></script>
 </head>
 
 <body>
@@ -57,6 +58,47 @@
 
     <main class="app-main">
       <section class="page active">
+        <!-- KSE-100 Index Heatmap -->
+        <div class="kse-heatmap-section">
+          <div class="page-header">
+            <h2>KSE-100 Index Heatmap</h2>
+            <div class="timeframe-selector">
+              <button class="timeframe-btn active" data-period="1D">1D</button>
+              <button class="timeframe-btn" data-period="1W">1W</button>
+              <button class="timeframe-btn" data-period="1M">1M</button>
+              <button class="timeframe-btn" data-period="6M">6M</button>
+              <button class="timeframe-btn" data-period="1Y">1Y</button>
+              <button class="timeframe-btn" data-period="3Y">3Y</button>
+              <button class="timeframe-btn" data-period="5Y">5Y</button>
+            </div>
+          </div>
+          <div class="heatmap-container">
+            <div id="kseHeatmap" class="heatmap"></div>
+            <div class="heatmap-legend">
+              <div class="legend-item">
+                <span class="color-box very-negative"></span>
+                <span>-5%+</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-box negative"></span>
+                <span>-5% to -2%</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-box neutral"></span>
+                <span>-2% to 2%</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-box positive"></span>
+                <span>2% to 5%</span>
+              </div>
+              <div class="legend-item">
+                <span class="color-box very-positive"></span>
+                <span>5%+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="page-header">
           <h2>Welcome</h2>
           <small class="muted">Select a category to begin analysis.</small>
