@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Financial Ratio Analyzer (2025) — CFA Edition</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/modal.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/js/sector-chart.js" defer></script>
   <script src="/js/main.js" defer></script>
   <script src="/js/kse-heatmap.js" defer></script>
 </head>
@@ -60,18 +63,23 @@
       <section class="page active">
         <!-- KSE-100 Index Heatmap -->
         <div class="kse-heatmap-section">
-          <div class="page-header">
+        <div class="page-header">
+          <div class="header-row">
             <h2>KSE-100 Index Heatmap</h2>
-            <div class="timeframe-selector">
-              <button class="timeframe-btn active" data-period="1D">1D</button>
-              <button class="timeframe-btn" data-period="1W">1W</button>
-              <button class="timeframe-btn" data-period="1M">1M</button>
-              <button class="timeframe-btn" data-period="6M">6M</button>
-              <button class="timeframe-btn" data-period="1Y">1Y</button>
-              <button class="timeframe-btn" data-period="3Y">3Y</button>
-              <button class="timeframe-btn" data-period="5Y">5Y</button>
-            </div>
+            <select id="metricSelector" class="metric-selector">
+              <!-- Options will be populated by JS -->
+            </select>
           </div>
+          <div class="timeframe-selector">
+            <button class="timeframe-btn active" data-period="1D">1D</button>
+            <button class="timeframe-btn" data-period="1W">1W</button>
+            <button class="timeframe-btn" data-period="1M">1M</button>
+            <button class="timeframe-btn" data-period="6M">6M</button>
+            <button class="timeframe-btn" data-period="1Y">1Y</button>
+            <button class="timeframe-btn" data-period="3Y">3Y</button>
+            <button class="timeframe-btn" data-period="5Y">5Y</button>
+          </div>
+        </div>
           <div class="heatmap-container">
             <div id="kseHeatmap" class="heatmap"></div>
             <div class="heatmap-legend">
@@ -96,6 +104,14 @@
                 <span>5%+</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Sector Details Modal -->
+        <div id="sectorModal" class="modal">
+          <div class="modal-content">
+            <button id="closeModal" class="close-modal">×</button>
+            <div id="sectorDetails" class="sector-details"></div>
           </div>
         </div>
 
