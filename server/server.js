@@ -45,8 +45,10 @@
 
 
 // /server/server.js
+require('dotenv').config();
 const express = require("express");
 const path = require("path");
+const stockDataService = require('./services/stockDataService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -56,6 +58,39 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
+
+// ===== API Routes =====
+
+// API Endpoints
+app.get('/api/sectors', async (req, res) => {
+  try {
+    const data = await stockDataService.getSectorData();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching sector data:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/sector/:sectorId/top-movers', async (req, res) => {
+  try {
+    const data = await stockDataService.getTopMovers(req.params.sectorId);
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching top movers:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/sector/:sectorId/news', async (req, res) => {
+  try {
+    const data = await stockDataService.getSectorNews(req.params.sectorId);
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching sector news:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // ===== Routes =====
 
