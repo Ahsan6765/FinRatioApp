@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+
+<div class="smartai-container">
+    <div class="smartai-header">
+        <h1>Market Intelligence</h1>
+        <p>AI-powered analysis and predictive insights</p>
+    </div>
+
+    <div class="smartai-grid">
+        <!-- Market Overview -->
+        <div class="smartai-card" id="market-overview">
+            <h2><i class="fas fa-chart-line"></i> Market Pulse</h2>
+            <div class="market-sentiment-meter"></div>
+            <div class="market-summary"></div>
+        </div>
+
+        <!-- Sector Analysis -->
+        <div class="smartai-card" id="sector-analysis">
+            <h2><i class="fas fa-industry"></i> Sector Intelligence</h2>
+            <div class="sector-filters">
+                <select id="sectorMetric">
+                    <option value="P/E">P/E Ratio</option>
+                    <option value="momentum">Momentum</option>
+                    <option value="marketCap">Market Cap</option>
+                </select>
+            </div>
+            <div class="sector-heatmap">
+                <!-- KSE-100 Heatmap integration -->
+            </div>
+            <div class="sector-insights"></div>
+        </div>
+
+        <!-- News & Sentiment -->
+        <div class="smartai-card" id="news-sentiment">
+            <h2><i class="fas fa-newspaper"></i> News Impact Analysis</h2>
+            <div class="news-filters">
+                <select id="newsCategory">
+                    <option value="all">All News</option>
+                    <option value="market">Market News</option>
+                    <option value="company">Company News</option>
+                    <option value="economic">Economic News</option>
+                </select>
+            </div>
+            <div class="news-feed"></div>
+        </div>
+
+        <!-- Smart Signals -->
+        <div class="smartai-card" id="smart-signals">
+            <h2><i class="fas fa-brain"></i> Smart Signals</h2>
+            <div class="signal-grid"></div>
+        </div>
+
+        <!-- Company Analyzer -->
+        <div class="smartai-card" id="company-analyzer">
+            <h2><i class="fas fa-building"></i> Company Intelligence</h2>
+            <div class="company-search">
+                <input type="text" id="company-symbol" placeholder="Enter company symbol...">
+                <button onclick="analyzeCompany()">Analyze</button>
+            </div>
+            <div class="company-insights"></div>
+        </div>
+
+        <!-- Market Predictions -->
+        <div class="smartai-card" id="market-predictions">
+            <h2><i class="fas fa-crystal-ball"></i> Predictive Analytics</h2>
+            <div class="prediction-filters">
+                <select id="predictionTimeframe">
+                    <option value="1d">24 Hours</option>
+                    <option value="1w">1 Week</option>
+                    <option value="1m">1 Month</option>
+                </select>
+            </div>
+            <div class="prediction-charts"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Load D3.js for advanced visualizations -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<!-- SmartAI specific scripts -->
+<script src="/js/smartai/marketIntelligence.js"></script>
+<script src="/js/smartai/sectorAnalysis.js"></script>
+<script src="/js/smartai/newsAnalysis.js"></script>
+<script src="/js/smartai/signals.js"></script>
+<script src="/js/smartai/predictions.js"></script>
+
+<%- include('partials/footer') %>
+
+<%- include('partials/footer') %>

@@ -6,6 +6,8 @@ require('dotenv').config();
 const express = require("express");
 const path = require("path");
 const stockDataService = require('./services/stockDataService');
+const smartAiRoutes = require('./routes/smartai');
+const signalsRouter = require('./routes/signalsRouter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +19,12 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 
 // ===== API Routes =====
+
+// SmartAI Routes
+app.use('/api/smartai', smartAiRoutes);
+
+// Signals Routes
+app.use('/api', signalsRouter);
 
 // API Endpoints
 // Technical analysis API is temporarily disabled until reliable PSX APIs are available.
@@ -100,6 +108,11 @@ app.get("/fcf", (req, res) => {
 // ===== NEW: Valuation Page =====
 app.get("/valuation", (req, res) => {
   res.render("valuation");
+});
+
+// SmartAI Dashboard
+app.get("/smartai", (req, res) => {
+  res.render("smartai");
 });
 
 // ===== 404 Handler =====

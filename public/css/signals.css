@@ -1,0 +1,109 @@
+.signals-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.signal-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+.signal-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.signal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.signal-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.signal-strength {
+    display: flex;
+    align-items: center;
+}
+
+.strength-bars {
+    display: flex;
+    gap: 2px;
+}
+
+.bar {
+    width: 4px;
+    height: 12px;
+    background: #333;
+    border-radius: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.bar.filled {
+    background: #4CAF50;
+}
+
+.very-strong .bar.filled {
+    background: #00C853;
+}
+
+.strong .bar.filled {
+    background: #4CAF50;
+}
+
+.moderate .bar.filled {
+    background: #FFC107;
+}
+
+.weak .bar.filled {
+    background: #FF5722;
+}
+
+.signal-content {
+    padding-top: 0.5rem;
+    border-top: 1px solid #333;
+}
+
+.signal-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.signal-description {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin: 0;
+}
+
+.signal-positive {
+    border-left: 4px solid #4CAF50;
+}
+
+.signal-negative {
+    border-left: 4px solid #F44336;
+}
+
+.signal-neutral {
+    border-left: 4px solid #FFC107;
+}
+
+.error-message {
+    background: #2c1518;
+    border: 1px solid #8b0000;
+    padding: 1rem;
+    border-radius: 4px;
+    color: #ff6b6b;
+    text-align: center;
+}

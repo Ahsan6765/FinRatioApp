@@ -9,11 +9,13 @@
   <link rel="stylesheet" href="/css/modal.css" />
   <link rel="stylesheet" href="/css/sector-details.css" />
   <link rel="stylesheet" href="/css/technical-chart.css" />
+  <link rel="stylesheet" href="/css/signals.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/sector-data.js" defer></script>
   <script src="/js/sector-chart.js" defer></script>
   <script src="/js/main.js" defer></script>
   <script src="/js/kse-heatmap.js" defer></script>
+  <script src="/js/smartai/signals.js" defer></script>
 </head>
 
 <body>
@@ -102,6 +104,15 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Smart Signals Section -->
+        <div class="smart-signals-section">
+          <div class="page-header">
+            <h2>Market Smart Signals</h2>
+            <small class="muted">AI-powered market intelligence signals</small>
+          </div>
+          <div class="signal-grid"></div>
         </div>
 
         <!-- Sector Details Modal -->
