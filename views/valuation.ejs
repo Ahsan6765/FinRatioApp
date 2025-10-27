@@ -27,8 +27,6 @@
             <a href="/efficiency">Efficiency</a>
             <a href="/marketvalue">Market Value</a>
             <a href="/valuation" class="active">valuation</a>
-            <a href="/dcf">DCF</a>
-            <a href="/fcf">FCF</a>
             <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
         </nav>
     </header>
@@ -50,21 +48,7 @@
                     <p class="muted">Use DCF and FCF tools side-by-side for quick comparison.</p>
                 </div>
 
-                <!-- Two-column responsive grid for DCF and FCF -->
-                <style>
-                    .valuation-grid {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 20px;
-                        align-items: start;
-                    }
-
-                    @media (max-width: 900px) {
-                        .valuation-grid {
-                            grid-template-columns: 1fr;
-                        }
-                    }
-                </style>
+                <!-- Two-column responsive grid for DCF and FCF (CSS moved to /public/css/style.css) -->
 
                 <div class="valuation-grid">
                     <!-- DCF Card -->
