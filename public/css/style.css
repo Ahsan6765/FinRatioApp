@@ -349,3 +349,87 @@ button:hover { opacity: 0.9; transform: translateY(-1px); }
   color: var(--muted);
   font-size: 0.9rem;
 }
+
+/* ==========================
+   SmartAI — Polished design
+   ==========================
+*/
+.smartai-container {
+  max-width: 1180px;
+  margin: 18px auto 40px;
+  padding: 18px;
+}
+
+.smartai-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.smartai-header h1 {
+  color: var(--accent);
+  font-size: 28px;
+  margin: 0 0 6px 0;
+}
+
+.smartai-header p { color: var(--muted); margin: 0; }
+
+.smartai-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 320px; /* signals column on the right */
+  gap: 20px;
+  align-items: start;
+}
+
+/* Card styling consistent with site */
+.smartai-card {
+  background: linear-gradient(180deg, var(--glass), var(--card));
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(3,105,161,0.06);
+}
+
+.smartai-card h2 { font-size: 16px; margin: 0 0 12px 0; display:flex; align-items:center; gap:8px; }
+.smartai-card h2 i { color: var(--accent); }
+
+.signal-grid { min-height: 220px; }
+
+/* Market Pulse / Sentiment card */
+.market-sentiment-meter {
+  height: 140px;
+  display: flex; align-items: center; justify-content: center;
+}
+.market-summary { color: var(--muted); font-size: 14px; margin-top: 10px; }
+
+/* Intelligence grid inside SmartAI page for charts */
+.intelligence-grid { display:flex; gap: 16px; flex-wrap:wrap; }
+.intel-card { flex: 1 1 260px; min-width: 220px; background: transparent; padding:0; }
+
+/* News feed */
+.news-grid { display:block; }
+.news-item { padding:10px 0; border-bottom:1px dashed rgba(3,105,161,0.06); }
+.news-item h4 { margin:0 0 6px 0; font-size:14px; }
+.news-item p { margin:0; color:var(--muted); font-size:13px; }
+
+/* Company analyzer */
+.company-insights { min-height:140px; color:var(--muted); }
+
+/* Predictive charts area */
+.prediction-charts { min-height:160px; }
+
+/* Signals (right column) */
+.signal-card { margin-bottom: 12px; }
+.signal-card .signal-header h3 { font-size:15px; }
+
+/* Sidebar AI button small tweak */
+.ai-button { padding: 8px 10px; }
+
+@media (max-width: 1100px) {
+  .smartai-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 700px) {
+  .container { padding: 12px; }
+  .smartai-grid { grid-template-columns: 1fr; }
+  .ai-button { width: 100%; }
+}

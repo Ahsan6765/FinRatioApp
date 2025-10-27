@@ -1,5 +1,11 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
+const Parser = require('rss-parser');
+const rssParser = new Parser({
+    headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'application/rss+xml,application/xml;q=0.9',
+    }
+});
 
 class NewsService {
     constructor() {
@@ -7,12 +13,15 @@ class NewsService {
         this.cacheDuration = 15 * 60 * 1000; // 15 minutes cache
         this.rateLimits = new Map();
         this.maxRequestsPerMinute = 10;
-        this.sources = {
-            marketWatch: 'https://www.marketwatch.com/latest-news',
-            yahooFinance: 'https://finance.yahoo.com/news',
-            reuters: 'https://www.reuters.com/markets',
-            investingCom: 'https://www.investing.com/news/stock-market-news',
-            seekingAlpha: 'https://seekingalpha.com/market-news'
+
+        // RSS feed URLs
+        this.rssSources = {
+            // Google News RSS feed for financial news
+            googleNewsFinance: 'https://news.google.com/rss/search?q=finance+market+stocks&hl=en-US&gl=US&ceid=US:en',
+            // Yahoo Finance RSS feed for market news
+            yahooFinanceRSS: 'https://finance.yahoo.com/news/rssindex',
+            // Google News top stories
+            googleNewsTop: 'https://news.google.com/news/rss?hl=en-US&gl=US&ceid=US:en'
         };
     }
 
@@ -20,7 +29,6 @@ class NewsService {
         const now = Date.now();
         const oneMinuteAgo = now - 60000;
         
-        // Initialize or clean up old requests
         if (!this.rateLimits.has(source)) {
             this.rateLimits.set(source, []);
         }
@@ -36,43 +44,8 @@ class NewsService {
         this.rateLimits.set(source, requests);
     }
 
-    calculateRelevanceScore(article, query) {
-        let score = 0;
-        const queryTerms = query ? query.toLowerCase().split(/\s+/) : [];
-        const content = (article.title + ' ' + article.description).toLowerCase();
-
-        // Term frequency scoring
-        queryTerms.forEach(term => {
-            const regex = new RegExp(term, 'g');
-            const matches = content.match(regex);
-            if (matches) {
-                score += matches.length;
-            }
-        });
-
-        // Recency scoring (newer articles score higher)
-        const age = Date.now() - new Date(article.publishedAt).getTime();
-        const recencyScore = Math.max(0, 1 - (age / (24 * 60 * 60 * 1000))); // Full score if less than 24h old
-        score += recencyScore * 3;
-
-        // Source credibility scoring
-        const credibilityScores = {
-            'Reuters': 5,
-            'MarketWatch': 4,
-            'Yahoo Finance': 4,
-            'Seeking Alpha': 3,
-            'Investing.com': 3
-        };
-        score += credibilityScores[article.source] || 1;
-
-        // Content length scoring
-        score += Math.min(content.length / 1000, 2); // Up to 2 points for length
-
-        return score;
-    }
-
     async getFinancialNews(query) {
-        const cacheKey = `news-${query}`;
+        const cacheKey = `news-${query || 'general'}`;
         
         // Check cache first
         if (this.cache.has(cacheKey)) {
@@ -84,88 +57,58 @@ class NewsService {
         }
 
         try {
-            // Fetch from multiple free sources with rate limiting
-            const newsData = {
-                articles: []
-            };
+            const newsData = { articles: [] };
+            const searchQuery = query ? 
+                encodeURIComponent(query + ' financial OR market OR stocks') : 
+                'finance+market+stocks';
 
-            const NewsScrapers = require('./newsScrapers');
-            
-            // MarketWatch scraping
+            // Try Google News RSS with search query first (most reliable)
             try {
-                this.checkRateLimit('MarketWatch');
-                const marketWatchNews = await this.scrapeMarketWatch();
-                newsData.articles.push(...marketWatchNews);
-            } catch (error) {
-                console.warn('Error fetching MarketWatch news:', error);
-            }
-
-            // Yahoo Finance scraping
-            try {
-                this.checkRateLimit('Yahoo Finance');
-                const yahooNews = await this.scrapeYahooFinance();
-                newsData.articles.push(...yahooNews);
-            } catch (error) {
-                console.warn('Error fetching Yahoo Finance news:', error);
-            }
-
-            // Reuters scraping
-            try {
-                this.checkRateLimit('Reuters');
-                const reutersNews = await NewsScrapers.scrapeReuters();
-                newsData.articles.push(...reutersNews);
-            } catch (error) {
-                console.warn('Error fetching Reuters news:', error);
-            }
-
-            // Investing.com scraping
-            try {
-                this.checkRateLimit('Investing.com');
-                const investingNews = await NewsScrapers.scrapeInvestingCom();
-                newsData.articles.push(...investingNews);
-            } catch (error) {
-                console.warn('Error fetching Investing.com news:', error);
-            }
-
-            // Seeking Alpha scraping
-            try {
-                this.checkRateLimit('Seeking Alpha');
-                const seekingAlphaNews = await NewsScrapers.scrapeSeekingAlpha();
-                newsData.articles.push(...seekingAlphaNews);
-            } catch (error) {
-                console.warn('Error fetching Seeking Alpha news:', error);
-            }
-
-            // Ensure we have at least some articles
-            if (newsData.articles.length === 0) {
-                throw new Error('No news articles could be fetched from any source');
-            }
-
-            // Remove duplicates based on title similarity
-            newsData.articles = this.removeDuplicates(newsData.articles);
-
-            // Calculate relevance scores and filter/sort based on query
-            newsData.articles = newsData.articles.map(article => ({
-                ...article,
-                relevanceScore: this.calculateRelevanceScore(article, query)
-            }));
-
-            // Filter by query if provided
-            if (query) {
-                const queryLower = query.toLowerCase();
-                newsData.articles = newsData.articles.filter(article => 
-                    article.title.toLowerCase().includes(queryLower) ||
-                    article.description.toLowerCase().includes(queryLower)
-                );
-            }
-
-            // Sort by relevance score and date
-            newsData.articles.sort((a, b) => {
-                if (Math.abs(b.relevanceScore - a.relevanceScore) > 0.5) {
-                    return b.relevanceScore - a.relevanceScore;
+                const url = `https://news.google.com/rss/search?q=${searchQuery}&hl=en-US&gl=US&ceid=US:en`;
+                const feed = await this.fetchRSSFeed(url, 'Google News');
+                
+                if (feed && feed.length > 0) {
+                    console.log('Successfully fetched Google News articles:', feed.length);
+                    newsData.articles.push(...feed);
                 }
-                return new Date(b.publishedAt) - new Date(a.publishedAt);
-            });
+            } catch (error) {
+                console.error('Error fetching Google News:', error.message);
+            }
+
+            // If we don't have enough articles, try Yahoo Finance RSS
+            if (newsData.articles.length < 10) {
+                try {
+                    const feed = await this.fetchRSSFeed(this.rssSources.yahooFinanceRSS, 'Yahoo Finance');
+                    if (feed && feed.length > 0) {
+                        console.log('Successfully fetched Yahoo Finance articles:', feed.length);
+                        newsData.articles.push(...feed);
+                    }
+                } catch (error) {
+                    console.error('Error fetching Yahoo Finance RSS:', error.message);
+                }
+            }
+
+            // If we still don't have enough articles, try Google News top stories
+            if (newsData.articles.length < 10) {
+                try {
+                    const feed = await this.fetchRSSFeed(this.rssSources.googleNewsTop, 'Google News');
+                    if (feed && feed.length > 0) {
+                        console.log('Successfully fetched Google News top stories:', feed.length);
+                        newsData.articles.push(...feed);
+                    }
+                } catch (error) {
+                    console.error('Error fetching Google News top stories:', error.message);
+                }
+            }
+
+            // Filter and sort articles
+            if (query) {
+                newsData.articles = this.filterByQuery(newsData.articles, query);
+            }
+
+            // Remove duplicates and sort by date
+            newsData.articles = this.removeDuplicates(newsData.articles);
+            newsData.articles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
             // Cache the results
             this.cache.set(cacheKey, {
@@ -174,70 +117,58 @@ class NewsService {
             });
 
             return newsData;
+
         } catch (error) {
-            console.error('Error fetching news:', error);
+            console.error('Error fetching financial news:', error);
             throw new Error('Failed to fetch news data');
         }
     }
 
-    async scrapeMarketWatch() {
+    async fetchRSSFeed(url, source) {
         try {
-            const response = await axios.get(this.sources.marketWatch);
-            const $ = cheerio.load(response.data);
-            const articles = [];
+            this.checkRateLimit(source);
 
-            $('.article__content').each((i, elem) => {
-                const title = $(elem).find('.article__headline').text().trim();
-                const description = $(elem).find('.article__summary').text().trim();
-                const url = $(elem).find('a').attr('href');
-                const publishedAt = new Date().toISOString(); // Use current date as fallback
-
-                if (title && description) {
-                    articles.push({
-                        title,
-                        description,
-                        url,
-                        publishedAt,
-                        source: 'MarketWatch'
-                    });
-                }
+            const response = await axios.get(url, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept': 'application/rss+xml,application/xml;q=0.9',
+                    'Accept-Language': 'en-US,en;q=0.5'
+                },
+                timeout: 10000,
+                responseType: 'text'
             });
 
-            return articles;
+            const feed = await rssParser.parseString(response.data);
+            
+            return feed.items.map(item => ({
+                title: item.title,
+                description: item.contentSnippet || item.description || '',
+                url: item.link,
+                publishedAt: item.pubDate || item.isoDate || new Date().toISOString(),
+                source: source
+            }));
         } catch (error) {
-            console.error('Error scraping MarketWatch:', error);
+            console.error(`Error fetching RSS feed from ${source}:`, error.message);
             return [];
         }
     }
 
-    async scrapeYahooFinance() {
-        try {
-            const response = await axios.get(this.sources.yahooFinance);
-            const $ = cheerio.load(response.data);
-            const articles = [];
+    filterByQuery(articles, query) {
+        const queryTerms = query.toLowerCase().split(/\s+/);
+        return articles.filter(article => {
+            const content = (article.title + ' ' + article.description).toLowerCase();
+            return queryTerms.some(term => content.includes(term));
+        });
+    }
 
-            $('li.js-stream-content').each((i, elem) => {
-                const title = $(elem).find('h3').text().trim();
-                const description = $(elem).find('p').text().trim();
-                const url = 'https://finance.yahoo.com' + $(elem).find('a').attr('href');
-                const publishedAt = new Date().toISOString(); // Use current date as fallback
-
-                if (title && description) {
-                    articles.push({
-                        title,
-                        description,
-                        url,
-                        publishedAt,
-                        source: 'Yahoo Finance'
-                    });
-                }
-            });
-
-            return articles;
-        } catch (error) {
-            console.error('Error scraping Yahoo Finance:', error);
-            return [];
-        }
+    removeDuplicates(articles) {
+        const seen = new Set();
+        return articles.filter(article => {
+            const titleKey = article.title.toLowerCase().replace(/[^\w\s]/g, '').trim();
+            if (seen.has(titleKey)) return false;
+            seen.add(titleKey);
+            return true;
+        });
     }
 
     async getCompanyNews(companySymbol) {
@@ -250,56 +181,6 @@ class NewsService {
 
     async getMarketNews() {
         return this.getFinancialNews('stock market financial news');
-    }
-
-    removeDuplicates(articles) {
-        const seen = new Set();
-        return articles.filter(article => {
-            // Create a simplified version of the title for comparison
-            const simplifiedTitle = article.title
-                .toLowerCase()
-                .replace(/[^\w\s]/g, '') // Remove punctuation
-                .replace(/\s+/g, ' ')    // Normalize whitespace
-                .trim();
-            
-            // Calculate similarity with existing titles
-            for (const existingTitle of seen) {
-                if (this.calculateStringSimilarity(existingTitle, simplifiedTitle) > 0.8) {
-                    return false; // Skip this article as it's too similar to an existing one
-                }
-            }
-            
-            seen.add(simplifiedTitle);
-            return true;
-        });
-    }
-
-    calculateStringSimilarity(str1, str2) {
-        // Implement Levenshtein distance for string similarity
-        const track = Array(str2.length + 1).fill(null).map(() =>
-            Array(str1.length + 1).fill(null));
-        
-        for (let i = 0; i <= str1.length; i += 1) {
-            track[0][i] = i;
-        }
-        for (let j = 0; j <= str2.length; j += 1) {
-            track[j][0] = j;
-        }
-
-        for (let j = 1; j <= str2.length; j += 1) {
-            for (let i = 1; i <= str1.length; i += 1) {
-                const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
-                track[j][i] = Math.min(
-                    track[j][i - 1] + 1,
-                    track[j - 1][i] + 1,
-                    track[j - 1][i - 1] + indicator
-                );
-            }
-        }
-
-        // Convert distance to similarity score (0 to 1)
-        const maxLength = Math.max(str1.length, str2.length);
-        return 1 - (track[str2.length][str1.length] / maxLength);
     }
 }
 
