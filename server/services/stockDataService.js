@@ -7,28 +7,82 @@ class StockDataService {
     this.baseUrl = 'https://stockanalysis.com/list/pakistan-stock-exchange/';
     this.cache = new Map();
     this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
+    this.fallbackStocks = [
+      { symbol: 'OGDC', name: 'Oil & Gas Development Company Ltd', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'PPL', name: 'Pakistan Petroleum Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'UBL', name: 'United Bank Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'ENGRO', name: 'Engro Corporation Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'LUCK', name: 'Lucky Cement Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'HBL', name: 'Habib Bank Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'POL', name: 'Pakistan Oilfields Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'MCB', name: 'MCB Bank Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'PSO', name: 'Pakistan State Oil Company Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' },
+      { symbol: 'HUBC', name: 'The Hub Power Company Limited', price: '0', change: '0', changePct: '0', volume: '0', marketCap: '0' }
+    ];
   }
 
   async fetchWithCache(url, scraper) {
-    const cached = this.cache.get(url);
-    if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
-      return cached.data;
-    }
+    try {
+      const cached = this.cache.get(url);
+      if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
+        return cached.data;
+      }
 
-    const data = await scraper();
-    this.cache.set(url, {
-      data,
-      timestamp: Date.now()
-    });
-    return data;
+      const data = await scraper();
+      this.cache.set(url, {
+        data,
+        timestamp: Date.now()
+      });
+      return data;
+    } catch (error) {
+      console.error('Cache fetch error:', error);
+      throw error;
+    }
   }
 
   async getStockList() {
     return this.fetchWithCache(this.baseUrl, async () => {
-      const browser = await puppeteer.launch({ headless: 'new' });
+      const browser = await puppeteer.launch({
+        headless: 'new',
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--disable-gpu',
+          '--window-size=1920x1080'
+        ],
+        defaultViewport: {
+          width: 1920,
+          height: 1080
+        }
+      });
+      
       try {
         const page = await browser.newPage();
-        await page.goto(this.baseUrl, { waitUntil: 'networkidle0' });
+        
+        // Set longer timeout and better error handling
+        await page.setDefaultNavigationTimeout(60000); // 60 seconds
+        await page.setDefaultTimeout(60000);
+        
+        // Add request interception to block unnecessary resources
+        await page.setRequestInterception(true);
+        page.on('request', (req) => {
+          if (
+            req.resourceType() === 'image' ||
+            req.resourceType() === 'stylesheet' ||
+            req.resourceType() === 'font'
+          ) {
+            req.abort();
+          } else {
+            req.continue();
+          }
+        });
+
+        await page.goto(this.baseUrl, { 
+          waitUntil: ['networkidle0', 'domcontentloaded'],
+          timeout: 60000
+        });
         
         // Wait for the table to load
         await page.waitForSelector('table');
@@ -57,26 +111,95 @@ class StockDataService {
   }
 
   async getSectorData() {
-    const stocks = await this.getStockList();
-    
-    // Group stocks by sector (using a simplified sector mapping)
-    const sectors = {
-      'Banking': stocks.filter(s => s.name.toLowerCase().includes('bank')),
-      'Energy': stocks.filter(s => 
-        s.name.toLowerCase().includes('oil') || 
-        s.name.toLowerCase().includes('gas') ||
-        s.name.toLowerCase().includes('power')
-      ),
-      'Technology': stocks.filter(s => 
-        s.name.toLowerCase().includes('tech') || 
-        s.name.toLowerCase().includes('systems')
-      ),
-      'Manufacturing': stocks.filter(s => 
-        s.name.toLowerCase().includes('cement') || 
-        s.name.toLowerCase().includes('steel')
-      ),
-      'Others': stocks // Remaining stocks
-    };
+    try {
+      const stocks = await this.getStockList();
+      
+      // Group stocks by sector (using a simplified sector mapping)
+      const sectors = {
+        'Banking': stocks.filter(s => s.name.toLowerCase().includes('bank')),
+        'Energy': stocks.filter(s => 
+          s.name.toLowerCase().includes('oil') || 
+          s.name.toLowerCase().includes('gas') ||
+          s.name.toLowerCase().includes('power')
+        ),
+        'Technology': stocks.filter(s => 
+          s.name.toLowerCase().includes('tech') || 
+          s.name.toLowerCase().includes('systems')
+        ),
+        'Manufacturing': stocks.filter(s => 
+          s.name.toLowerCase().includes('cement') || 
+          s.name.toLowerCase().includes('steel')
+        ),
+        'Others': stocks // Remaining stocks
+      };
+
+      return Object.entries(sectors).map(([sectorName, stocks]) => {
+        const totalMarketCap = stocks.reduce((sum, stock) => {
+          const cap = parseFloat(stock.marketCap.replace(/[^\d.-]/g, '')) || 0;
+          return sum + cap;
+        }, 0);
+
+        const avgChange = stocks.reduce((sum, stock) => {
+          const change = parseFloat(stock.changePct) || 0;
+          return sum + change;
+        }, 0) / stocks.length;
+
+        const volume = stocks.reduce((sum, stock) => {
+          const vol = parseFloat(stock.volume.replace(/[^\d.-]/g, '')) || 0;
+          return sum + vol;
+        }, 0);
+
+        return {
+          name: sectorName,
+          change: avgChange.toFixed(2),
+          marketCap: totalMarketCap.toFixed(2),
+          volume: volume.toFixed(2),
+          stocks: stocks.map(s => ({
+            symbol: s.symbol,
+            name: s.name,
+            price: s.price,
+            change: s.changePct,
+            volume: s.volume
+          }))
+        };
+      });
+      
+    } catch (error) {
+      console.error('Error fetching real stock data, using fallback data:', error);
+      
+      // Use fallback data when scraping fails
+      const sectors = {
+        'Banking': this.fallbackStocks.filter(s => s.name.toLowerCase().includes('bank')),
+        'Energy': this.fallbackStocks.filter(s => 
+          s.name.toLowerCase().includes('oil') || 
+          s.name.toLowerCase().includes('gas') ||
+          s.name.toLowerCase().includes('power')
+        ),
+        'Technology': this.fallbackStocks.filter(s => 
+          s.name.toLowerCase().includes('tech') || 
+          s.name.toLowerCase().includes('systems')
+        ),
+        'Manufacturing': this.fallbackStocks.filter(s => 
+          s.name.toLowerCase().includes('cement') || 
+          s.name.toLowerCase().includes('steel')
+        ),
+        'Others': this.fallbackStocks
+      };
+
+      return Object.entries(sectors).map(([sectorName, stocks]) => ({
+        name: sectorName,
+        change: '0.00',
+        marketCap: '0.00',
+        volume: '0.00',
+        stocks: stocks.map(s => ({
+          symbol: s.symbol,
+          name: s.name,
+          price: s.price,
+          change: s.changePct,
+          volume: s.volume
+        }))
+      }));
+    }
 
     // Calculate sector metrics
     return Object.entries(sectors).map(([sectorName, stocks]) => {
@@ -153,6 +276,12 @@ class StockDataService {
     return stocks.filter(stock => 
       keywords.some(keyword => stock.name.toLowerCase().includes(keyword))
     );
+  }
+
+  async getTechnicalData(symbol, timeframe) {
+    // Technical data scraping is disabled until a stable PSX API/data provider is available.
+    // Return an explicit error so callers and API routes can handle the disabled state.
+    throw new Error('Technical analysis disabled: PSX data providers unavailable.');
   }
 }
 

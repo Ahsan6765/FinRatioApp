@@ -13,23 +13,23 @@
 <body>
     <header class="app-header">
         <div class="brand">
-            <div class="logo">FR</div>
+            <div class="logo">FA</div>
             <div>
-                <h1>Financial Ratio Analyzer</h1>
-                <div class="sub">Valuation Models</div>
+                <h1>Finlyzer</h1>
+                <div class="sub">Your Financial Advisor For Pakistan & Global Markets</div>
             </div>
         </div>
         <nav class="top-nav">
-      <a href="/" class="active">Home</a>
-      <a href="/liquidity">Liquidity</a>
-      <a href="/profitability">Profitability</a>
-      <a href="/leverage">Leverage</a>
-      <a href="/efficiency">Efficiency</a>
-      <a href="/marketvalue">Market Value</a>
-      <a href="/valuation" class="active">valuation</a>
-      <a href="/dcf">DCF</a>
-      <a href="/fcf">FCF</a>
-          <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
+            <a href="/">Home</a>
+            <a href="/liquidity">Liquidity</a>
+            <a href="/profitability">Profitability</a>
+            <a href="/leverage">Leverage</a>
+            <a href="/efficiency">Efficiency</a>
+            <a href="/marketvalue">Market Value</a>
+            <a href="/valuation" class="active">valuation</a>
+            <a href="/dcf">DCF</a>
+            <a href="/fcf">FCF</a>
+            <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
         </nav>
     </header>
 
@@ -43,16 +43,34 @@
         </aside>
 
         <section class="app-main">
-            <!-- DCF Section -->
-            <div class="page" id="dcfSection">
+            <!-- Valuation: DCF and FCF side-by-side -->
+            <div class="page" id="valuationSection">
                 <div class="page-header">
-                    <h2>Discounted Cash Flow (DCF) Valuation</h2>
-                    <p class="muted">Estimate intrinsic value using growth projections and discount rates.</p>
+                    <h2>Valuation Models</h2>
+                    <p class="muted">Use DCF and FCF tools side-by-side for quick comparison.</p>
                 </div>
 
-                <div class="grid">
+                <!-- Two-column responsive grid for DCF and FCF -->
+                <style>
+                    .valuation-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 20px;
+                        align-items: start;
+                    }
+
+                    @media (max-width: 900px) {
+                        .valuation-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                </style>
+
+                <div class="valuation-grid">
+                    <!-- DCF Card -->
                     <div class="ratio-card">
-                        <h3>DCF Inputs</h3>
+                        <h3>Discounted Cash Flow (DCF) Inputs</h3>
+                        <p class="muted">Estimate intrinsic value using growth projections and discount rates.</p>
                         <div class="inputs">
                             <input type="number" id="initialFCF" placeholder="Initial FCF (PKR million)" />
                             <input type="number" id="growthRate" placeholder="Growth Rate (%)" />
@@ -68,19 +86,11 @@
                         <div class="output" id="dcfValue"></div>
                         <div class="output" id="mosOutput"></div>
                     </div>
-                </div>
-            </div>
 
-            <!-- FCF Section -->
-            <div class="page hidden" id="fcfSection">
-                <div class="page-header">
-                    <h2>Free Cash Flow (FCF) Valuation</h2>
-                    <p class="muted">Calculate fair value using FCF to firm approach.</p>
-                </div>
-
-                <div class="grid">
+                    <!-- FCF Card -->
                     <div class="ratio-card">
-                        <h3>FCF Inputs</h3>
+                        <h3>Free Cash Flow (FCF) Inputs</h3>
+                        <p class="muted">Calculate fair value using FCF to firm approach.</p>
                         <div class="inputs">
                             <input type="number" id="fcf1" placeholder="FCF Year 1 (PKR million)" />
                             <input type="number" id="fcf2" placeholder="FCF Year 2 (PKR million)" />

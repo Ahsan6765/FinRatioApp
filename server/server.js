@@ -62,6 +62,13 @@ app.use(express.urlencoded({ extended: true }));
 // ===== API Routes =====
 
 // API Endpoints
+// Technical analysis API is temporarily disabled until reliable PSX APIs are available.
+app.get('/api/stock/:symbol/technical', async (req, res) => {
+  res.status(503).json({
+    error: 'Technical analysis feature temporarily disabled due to unavailable PSX data providers.'
+  });
+});
+
 app.get('/api/sectors', async (req, res) => {
   try {
     const data = await stockDataService.getSectorData();
@@ -122,12 +129,15 @@ app.get("/marketvalue", (req, res) => {
 
 // ===== Valuation tools (DCF & FCF) =====
 // These routes were missing which caused 404s for /dcf and /fcf
+// DCF and FCF had separate pages previously. They are now part of the
+// consolidated /valuation page. Redirect old routes to /valuation so links
+// and bookmarks continue to work.
 app.get("/dcf", (req, res) => {
-  res.render("dcf", { title: "Discounted Cash Flow (DCF) Valuation" });
+  res.redirect(302, '/valuation');
 });
 
 app.get("/fcf", (req, res) => {
-  res.render("fcf", { title: "Free Cash Flow (FCF) Calculator" });
+  res.redirect(302, '/valuation');
 });
 
 // ===== NEW: Valuation Page =====

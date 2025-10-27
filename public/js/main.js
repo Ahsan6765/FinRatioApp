@@ -36,3 +36,7 @@ themeToggle?.addEventListener("click", () => {
   localStorage.setItem("theme", theme);
   themeToggle.textContent = theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
 });
+
+// Technical analysis UI removed temporarily because PSX APIs are unavailable.
+// If you want to re-enable technical charts later, restore the TechnicalChart
+// initialization and ensure the backend & data providers are available.
