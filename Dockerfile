@@ -13,9 +13,11 @@ WORKDIR /usr/src/app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Copy package manifests first (for better caching) and install only prod deps
+# Copy package manifest first (for better caching). Use npm install when package-lock.json
+# is not present because `npm ci` requires a lockfile. `npm install --omit=dev` will
+# install production deps only with modern npm versions.
 COPY app/package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev --no-audit --no-fund
 
 # Copy application source
 COPY app/. ./
