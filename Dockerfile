@@ -1,40 +1,25 @@
-
-# Multi-stage production image for FinlyzerApp (Financial Ratio Analyzer)
-# - Uses official Node 22 slim image
-# - Installs production dependencies only
-# - Runs the server as non-root `node` user
-
-FROM node:22-slim AS base
-
-# Set working directory
+# Build stage
+FROM node:22-slim AS builder
 WORKDIR /usr/src/app
-
-# Set environment
 ENV NODE_ENV=production
-ENV PORT=3000
-
-# Copy package manifest first (for better caching). Use npm install when package-lock.json
-# is not present because `npm ci` requires a lockfile. `npm install --omit=dev` will
-# install production deps only with modern npm versions.
+ENV PUPPETEER_SKIP_DOWNLOAD=true
 COPY app/package*.json ./
 RUN npm install --omit=dev --no-audit --no-fund
-
-# Copy application source
 COPY app/. ./
+RUN npm prune --production && rm -rf /root/.npm /tmp/* /var/lib/apt/lists/*
 
-# Fix permissions so non-root `node` user can run the app
-RUN chown -R node:node /usr/src/app
-
-# Switch to non-root user
+# Runtime stage
+FROM node:22-slim AS runtime
+WORKDIR /usr/src/app
+ENV NODE_ENV=production
+ENV PORT=3000
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/server ./server
+COPY --from=builder /usr/src/app/public ./public
+COPY --from=builder /usr/src/app/views ./views
+COPY --from=builder /usr/src/app/package*.json ./
 USER node
-
-# Expose port
 EXPOSE 3000
-
-# Simple healthcheck using Node's http client
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-	CMD node -e "require('http').get('http://localhost:'+process.env.PORT,(res)=>process.exit(res.statusCode===200?0:1)).on('error',()=>process.exit(1))"
-
-# Default command
+  CMD node -e "require('http').get('http://localhost:'+process.env.PORT,(res)=>process.exit(res.statusCode===200?0:1)).on('error',()=>process.exit(1))"
 CMD ["node", "server/server.js"]
-
