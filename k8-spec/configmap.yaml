@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: finlyzerapp-config
+  labels:
+    app: finlyzerapp
+# Add any non-sensitive environment variables here
+# Example:
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
