@@ -29,9 +29,15 @@ app.use('/api', signalsRouter);
 // API Endpoints
 // Technical analysis API is temporarily disabled until reliable PSX APIs are available.
 app.get('/api/stock/:symbol/technical', async (req, res) => {
-  res.status(503).json({
-    error: 'Technical analysis feature temporarily disabled due to unavailable PSX data providers.'
-  });
+  try {
+    const { symbol } = req.params;
+    const { timeframe } = req.query;
+    const data = await stockDataService.getTechnicalData(symbol, timeframe || '1D');
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching technical data:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.get('/api/sectors', async (req, res) => {
@@ -113,6 +119,11 @@ app.get("/valuation", (req, res) => {
 // SmartAI Dashboard
 app.get("/smartai", (req, res) => {
   res.render("smartai");
+});
+
+// Watchlist Page
+app.get("/watchlist", (req, res) => {
+  res.render("watchlist");
 });
 
 // ===== 404 Handler =====

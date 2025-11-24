@@ -30,13 +30,14 @@
 
     <nav class="top-nav">
       <a href="/" class="active">Home</a>
+      <a href="/watchlist">Watchlist</a>
       <a href="/liquidity">Liquidity</a>
       <a href="/profitability">Profitability</a>
       <a href="/leverage">Leverage</a>
       <a href="/efficiency">Efficiency</a>
       <a href="/marketvalue">Market Value</a>
-    <a href="/valuation">Valuation</a>
-    <a href="/smartai">SmartAI</a>
+      <a href="/valuation">Valuation</a>
+      <a href="/smartai">SmartAI</a>
       <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
     </nav>
   </header>
@@ -45,18 +46,19 @@
     <aside class="sidebar">
       <h2>Ratio Categories</h2>
       <div class="menu">
-      <button onclick="location.href='/'" class="active">Home</button>
-      <button onclick="location.href='/liquidity'">Liquidity</button>
-      <button onclick="location.href='/profitability'">Profitability</button>
-      <button onclick="location.href='/leverage'">Leverage</button>
-      <button onclick="location.href='/efficiency'">Efficiency</button>
-      <button onclick="location.href='/marketvalue'">Market Value</button>
-      <button onclick="location.href='/valuation'">Valuation</button>
-      <button onclick="location.href='/dcf'">DCF</button>
-      <button onclick="location.href='/fcf'">FCF</button>
-    <button onclick="location.href='/smartai'" class="ai-button">🤖 SmartAI</button>
-    </div>
-    <hr />
+        <button onclick="location.href='/'" class="active">Home</button>
+        <button onclick="location.href='/watchlist'">Watchlist</button>
+        <button onclick="location.href='/liquidity'">Liquidity</button>
+        <button onclick="location.href='/profitability'">Profitability</button>
+        <button onclick="location.href='/leverage'">Leverage</button>
+        <button onclick="location.href='/efficiency'">Efficiency</button>
+        <button onclick="location.href='/marketvalue'">Market Value</button>
+        <button onclick="location.href='/valuation'">Valuation</button>
+        <button onclick="location.href='/dcf'">DCF</button>
+        <button onclick="location.href='/fcf'">FCF</button>
+        <button onclick="location.href='/smartai'" class="ai-button">🤖 SmartAI</button>
+      </div>
+      <hr />
 
     </aside>
 
@@ -64,23 +66,23 @@
       <section class="page active">
         <!-- KSE-100 Index Heatmap -->
         <div class="kse-heatmap-section">
-        <div class="page-header">
-          <div class="header-row">
-            <h2>KSE-100 Index Heatmap</h2>
-            <select id="metricSelector" class="metric-selector">
-              <!-- Options will be populated by JS -->
-            </select>
+          <div class="page-header">
+            <div class="header-row">
+              <h2>KSE-100 Index Heatmap</h2>
+              <select id="metricSelector" class="metric-selector">
+                <!-- Options will be populated by JS -->
+              </select>
+            </div>
+            <div class="timeframe-selector">
+              <button class="timeframe-btn active" data-period="1D">1D</button>
+              <button class="timeframe-btn" data-period="1W">1W</button>
+              <button class="timeframe-btn" data-period="1M">1M</button>
+              <button class="timeframe-btn" data-period="6M">6M</button>
+              <button class="timeframe-btn" data-period="1Y">1Y</button>
+              <button class="timeframe-btn" data-period="3Y">3Y</button>
+              <button class="timeframe-btn" data-period="5Y">5Y</button>
+            </div>
           </div>
-          <div class="timeframe-selector">
-            <button class="timeframe-btn active" data-period="1D">1D</button>
-            <button class="timeframe-btn" data-period="1W">1W</button>
-            <button class="timeframe-btn" data-period="1M">1M</button>
-            <button class="timeframe-btn" data-period="6M">6M</button>
-            <button class="timeframe-btn" data-period="1Y">1Y</button>
-            <button class="timeframe-btn" data-period="3Y">3Y</button>
-            <button class="timeframe-btn" data-period="5Y">5Y</button>
-          </div>
-        </div>
           <div class="heatmap-container">
             <div id="kseHeatmap" class="heatmap"></div>
             <div class="heatmap-legend">
