@@ -1,0 +1,23 @@
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: finlyzerapp-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/finlyzerapp"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: finlyzerapp-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

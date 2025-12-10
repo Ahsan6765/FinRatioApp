@@ -11,6 +11,12 @@ Professional-grade financial ratio analysis application built with Node.js (Expr
 1. Clone repository
 2. `npm install`
 3. `npm run dev` (requires nodemon) or `npm start`
+
+Install nodemon as a dependency:
+`npm install --save-dev nodemon`
+
+Install dotenv as a dependency:
+`npm install dotenv`
 4. Open `http://localhost:3000`
 
 ## Project Structure
