@@ -18,6 +18,7 @@ COPY --from=builder /usr/src/app/server ./server
 COPY --from=builder /usr/src/app/public ./public
 COPY --from=builder /usr/src/app/views ./views
 COPY --from=builder /usr/src/app/package*.json ./
+RUN chown -R node:node /usr/src/app
 USER node
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
